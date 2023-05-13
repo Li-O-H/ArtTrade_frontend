@@ -37,7 +37,6 @@ export default {
   methods: {
     deleteOrderBid: function (id) {
       Utils.deleteOrderBid(this, id)
-      location.reload()
     },
   },
   created() {

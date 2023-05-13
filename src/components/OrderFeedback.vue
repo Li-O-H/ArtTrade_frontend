@@ -36,7 +36,6 @@ export default {
   methods: {
     deleteOrderFeedback: function (id) {
       Utils.deleteOrderFeedback(this, id)
-      location.reload()
     },
   },
   created() {

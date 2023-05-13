@@ -171,7 +171,6 @@ export default {
     },
     modifyItem: function () {
       Utils.modifyItem(this)
-      location.reload()
     },
     isPhotoForDeletion: function (id) {
       return this.photosForDeletion.includes(id)
@@ -188,15 +187,12 @@ export default {
     },
     activateItem: function () {
       Utils.activateItem(this)
-      location.reload()
     },
     hideItem: function () {
       Utils.hideItem(this)
-      location.reload()
     },
     completeItem: function () {
       Utils.completeItem(this)
-      location.reload()
     },
     countPriceOfItem: function (item) {
       let bids = item.bids
@@ -212,7 +208,6 @@ export default {
     addFeedback: function () {
       if (this.feedbackText !== undefined && this.ratingSelected !== undefined) {
         Utils.postItemFeedback(this)
-        location.reload()
       }
     },
     selectAddBid: function () {
@@ -221,18 +216,15 @@ export default {
     addBid: function () {
       if (this.bidSize !== undefined && Number(this.bidSize)) {
         Utils.postItemBid(this)
-        location.reload()
       } else {
         alert("Некорректная цена!")
       }
     },
     addToFavorite: function () {
       Utils.addItemToFavorite(this)
-      location.reload()
     },
     removeFromFavorite: function () {
       Utils.removeItemFromFavorite(this)
-      location.reload()
     },
     isInFavorite: function () {
       for (const user of this.curItem.favoriteOf) {

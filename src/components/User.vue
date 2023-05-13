@@ -147,11 +147,9 @@ export default {
     },
     modifyUser: function () {
       Utils.modifyUser(this)
-      location.reload()
     },
     deleteUser: function () {
       Utils.deleteUser(this.selectedUser.id)
-      location.reload()
     },
     isPhotoForDeletion: function (id) {
       return this.photosForDeletion.includes(id)

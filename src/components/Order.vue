@@ -191,7 +191,6 @@ export default {
     },
     modifyOrder: function () {
       Utils.modifyOrder(this)
-      location.reload()
     },
     isPhotoForDeletion: function (id) {
       return this.photosForDeletion.includes(id)
@@ -208,15 +207,12 @@ export default {
     },
     activateOrder: function () {
       Utils.activateOrder(this)
-      location.reload()
     },
     hideOrder: function () {
       Utils.hideOrder(this)
-      location.reload()
     },
     completeOrder: function () {
       Utils.completeOrder(this)
-      location.reload()
     },
     countPriceOfOrder: function (order) {
       let bids = order.bids
@@ -232,7 +228,6 @@ export default {
     addFeedback: function () {
       if (this.feedbackText !== undefined && this.ratingSelected !== undefined) {
         Utils.postOrderFeedback(this)
-        location.reload()
       }
     },
     selectAddBid: function () {
@@ -241,18 +236,15 @@ export default {
     addBid: function () {
       if (this.bidSize !== undefined && Number(this.bidSize)) {
         Utils.postOrderBid(this)
-        location.reload()
       } else {
         alert("Некорректная цена!")
       }
     },
     addToFavorite: function () {
       Utils.addOrderToFavorite(this)
-      location.reload()
     },
     removeFromFavorite: function () {
       Utils.removeOrderFromFavorite(this)
-      location.reload()
     },
     isInFavorite: function () {
       for (const user of this.curOrder.favoriteOf) {

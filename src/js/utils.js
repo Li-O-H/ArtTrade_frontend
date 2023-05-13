@@ -113,6 +113,7 @@ export function modifyUser(context) {
             that.isModifyUser = false
             that.photos = []
             that.photosForDeletion = []
+            location.reload()
         }
     };
 }
@@ -126,6 +127,8 @@ export function deleteUser(id) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -367,6 +370,7 @@ export function modifyItem(context) {
             that.isModifyItem = false
             that.photos = []
             that.photosForDeletion = []
+            location.reload()
         }
     };
 }
@@ -406,6 +410,7 @@ export function postItemFeedback(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isAddFeedback = false
+            location.reload()
         }
     };
 }
@@ -427,6 +432,7 @@ export function postItemBid(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isAddBid = false
+            location.reload()
         }
     };
 }
@@ -467,6 +473,8 @@ export function deleteItemFeedback(context, id) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -480,6 +488,8 @@ export function deleteItemBid(context, id) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -494,6 +504,8 @@ export function activateItem(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -508,6 +520,8 @@ export function hideItem(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -522,6 +536,8 @@ export function completeItem(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -539,6 +555,8 @@ export function addItemToFavorite(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -556,6 +574,8 @@ export function removeItemFromFavorite(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -659,6 +679,7 @@ export function modifyOrder(context) {
             that.isModifyOrder = false
             that.photos = []
             that.photosForDeletion = []
+            location.reload()
         }
     };
 }
@@ -698,6 +719,7 @@ export function postOrderFeedback(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isAddFeedback = false
+            location.reload()
         }
     };
 }
@@ -719,6 +741,7 @@ export function postOrderBid(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isAddBid = false
+            location.reload()
         }
     };
 }
@@ -759,6 +782,8 @@ export function deleteOrderFeedback(context, id) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -772,6 +797,8 @@ export function deleteOrderBid(context, id) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -786,6 +813,8 @@ export function activateOrder(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -800,6 +829,8 @@ export function hideOrder(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -820,6 +851,7 @@ export function completeOrder(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isCompleteOrder = false
+            location.reload()
         }
     };
 }
@@ -837,6 +869,8 @@ export function addOrderToFavorite(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
@@ -854,6 +888,8 @@ export function removeOrderFromFavorite(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            location.reload()
         }
     };
 }
