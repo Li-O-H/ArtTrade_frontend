@@ -95,12 +95,12 @@ export default {
       }
     },
     signout: async function () {
-      sessionStorage.removeItem('token');
+      localStorage.removeItem('token');
       window.location.replace("/")
     },
   },
   created() {
-    if (sessionStorage.getItem("token") !== null) {
+    if (localStorage.getItem("token") !== null) {
       Utils.getUserByToken(this)
     } else {
       this.isSelect = true;

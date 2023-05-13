@@ -244,7 +244,7 @@ export default {
     },
   },
   created() {
-    if (sessionStorage.getItem("token") !== null) {
+    if (localStorage.getItem("token") !== null) {
       Utils.getUserByToken(this)
       if (this.id === undefined && this.$route.params.id !== undefined) {
         this.id = Number(this.$route.params.id)

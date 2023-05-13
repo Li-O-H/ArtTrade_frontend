@@ -25,7 +25,7 @@ export function signup(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.token = xhr.response.toString()
-            sessionStorage.setItem('token', xhr.response.toString());
+            localStorage.setItem('token', xhr.response.toString());
             that.isSignup = false;
             getUserByToken(that)
         }
@@ -44,26 +44,26 @@ export function signin(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isSignin = false;
-            sessionStorage.setItem('token', xhr.response.toString());
+            localStorage.setItem('token', xhr.response.toString());
             getUserByToken(that)
         }
     };
 }
 
 export function getUserByToken(context) {
-    if (sessionStorage.getItem("token") === null) {
+    if (localStorage.getItem("token") === null) {
         return
     }
     const that = context;
     const xhr = new XMLHttpRequest();
     let url = new URL(serverPath + "/auth/")
-    url.searchParams.set("token", sessionStorage.getItem("token"))
+    url.searchParams.set("token", localStorage.getItem("token"))
     xhr.open("GET", url, true)
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
-            sessionStorage.removeItem("token")
+            localStorage.removeItem("token")
         } else {
             that.user = JSON.parse(xhr.response)
         }
@@ -76,7 +76,7 @@ export function getSelectedUser(context) {
     let url = new URL(serverPath + "/api/user/" + that.selectedUserId)
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -97,7 +97,7 @@ export function modifyUser(context) {
     });
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", serverPath + '/api/user', true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send(json)
     xhr.onload = async function () {
@@ -121,7 +121,7 @@ export function deleteUser(id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/user/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -137,7 +137,7 @@ export function postUserPhoto(context, userId, file) {
     });
     const xhr = new XMLHttpRequest();
     xhr.open("POST", serverPath + '/api/userPhoto', true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send(json)
     xhr.onload = function () {
@@ -151,7 +151,7 @@ export function deleteUserPhoto(id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/userPhoto/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -167,7 +167,7 @@ export function getUserPhotosByUser(context, userId) {
     url.searchParams.set('userId', userId)
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -185,7 +185,7 @@ export function getItemFeedbacksByUser(context, userId) {
     url.searchParams.set('userId', userId)
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -203,7 +203,7 @@ export function getItemBidsByUser(context, userId) {
     url.searchParams.set('userId', userId)
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -221,7 +221,7 @@ export function getOrderFeedbacksByUser(context, userId) {
     url.searchParams.set('userId', userId)
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -239,7 +239,7 @@ export function getOrderBidsByUser(context, userId) {
     url.searchParams.set('userId', userId)
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -254,7 +254,7 @@ export function getAllCategories(context) {
     const xhr = new XMLHttpRequest();
     let url = new URL(serverPath + "/api/category")
     xhr.open("GET", url, true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send()
     xhr.onload = function () {
@@ -298,7 +298,7 @@ export function getItems(context, id) {
     }
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -325,7 +325,7 @@ export function postItem(context) {
     });
     const xhr = new XMLHttpRequest();
     xhr.open("POST", serverPath + '/api/item', true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send(json)
     xhr.onload = async function () {
@@ -351,7 +351,7 @@ export function modifyItem(context) {
     });
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", serverPath + '/api/item', true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send(json)
     xhr.onload = async function () {
@@ -378,7 +378,7 @@ export function postItemPhoto(context, itemId, file) {
     });
     const xhr = new XMLHttpRequest();
     xhr.open("POST", serverPath + '/api/itemPhoto', true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send(json)
     xhr.onload = function () {
@@ -399,7 +399,7 @@ export function postItemFeedback(context) {
     })
     xhr.open("POST", serverPath + '/api/itemFeedback', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -420,7 +420,7 @@ export function postItemBid(context) {
     })
     xhr.open("POST", serverPath + '/api/itemBid', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -436,7 +436,7 @@ export function deleteItem(context) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/item/' + that.curItem.id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -449,7 +449,7 @@ export function deleteItemPhoto(id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/itemPhoto/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -462,7 +462,7 @@ export function deleteItemFeedback(context, id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/itemFeedback/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -475,7 +475,7 @@ export function deleteItemBid(context, id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/itemBid/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -489,7 +489,7 @@ export function activateItem(context) {
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", serverPath + '/api/item/' + that.curItem.id + '/activate', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -503,7 +503,7 @@ export function hideItem(context) {
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", serverPath + '/api/item/' + that.curItem.id + '/hide', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -517,7 +517,7 @@ export function completeItem(context) {
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", serverPath + '/api/item/' + that.curItem.id + '/complete', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -534,7 +534,7 @@ export function addItemToFavorite(context) {
     url.searchParams.set('itemId', that.curItem.id)
     xhr.open("POST", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -551,7 +551,7 @@ export function removeItemFromFavorite(context) {
     url.searchParams.set('itemId', that.curItem.id)
     xhr.open("DELETE", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -588,7 +588,7 @@ export function getOrders(context, id) {
     }
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -616,7 +616,7 @@ export function postOrder(context) {
     });
     const xhr = new XMLHttpRequest();
     xhr.open("POST", serverPath + '/api/order', true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send(json)
     xhr.onload = async function () {
@@ -643,7 +643,7 @@ export function modifyOrder(context) {
     });
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", serverPath + '/api/order', true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send(json)
     xhr.onload = async function () {
@@ -670,7 +670,7 @@ export function postOrderPhoto(context, orderId, file) {
     });
     const xhr = new XMLHttpRequest();
     xhr.open("POST", serverPath + '/api/orderPhoto', true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
     xhr.send(json)
     xhr.onload = function () {
@@ -691,7 +691,7 @@ export function postOrderFeedback(context) {
     })
     xhr.open("POST", serverPath + '/api/orderFeedback', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -712,7 +712,7 @@ export function postOrderBid(context) {
     })
     xhr.open("POST", serverPath + '/api/orderBid', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -728,7 +728,7 @@ export function deleteOrder(context) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/order/' + that.curOrder.id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -741,7 +741,7 @@ export function deleteOrderPhoto(id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/orderPhoto/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -754,7 +754,7 @@ export function deleteOrderFeedback(context, id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/orderFeedback/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -767,7 +767,7 @@ export function deleteOrderBid(context, id) {
     const xhr = new XMLHttpRequest();
     xhr.open("DELETE", serverPath + '/api/orderBid/' + id, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -781,7 +781,7 @@ export function activateOrder(context) {
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", serverPath + '/api/order/' + that.curOrder.id + '/activate', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -795,7 +795,7 @@ export function hideOrder(context) {
     const xhr = new XMLHttpRequest();
     xhr.open("PUT", serverPath + '/api/order/' + that.curOrder.id + '/hide', true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -813,7 +813,7 @@ export function completeOrder(context) {
     }
     xhr.open("PUT", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -832,7 +832,7 @@ export function addOrderToFavorite(context) {
     url.searchParams.set('orderId', that.curOrder.id)
     xhr.open("POST", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
@@ -849,7 +849,7 @@ export function removeOrderFromFavorite(context) {
     url.searchParams.set('orderId', that.curOrder.id)
     xhr.open("DELETE", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
-    xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem("token"));
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
