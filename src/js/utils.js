@@ -545,7 +545,7 @@ export function completeItem(context) {
 export function addItemToFavorite(context) {
     const that = context;
     const xhr = new XMLHttpRequest();
-    let url = new URL(serverPath + '/api/item/');
+    let url = new URL(serverPath + '/api/item/favorite');
     url.searchParams.set('userId', that.user.id)
     url.searchParams.set('itemId', that.curItem.id)
     xhr.open("POST", url, true)
@@ -564,7 +564,7 @@ export function addItemToFavorite(context) {
 export function removeItemFromFavorite(context) {
     const that = context;
     const xhr = new XMLHttpRequest();
-    let url = new URL(serverPath + '/api/item/');
+    let url = new URL(serverPath + '/api/item/favorite');
     url.searchParams.set('userId', that.user.id)
     url.searchParams.set('itemId', that.curItem.id)
     xhr.open("DELETE", url, true)
@@ -859,7 +859,7 @@ export function completeOrder(context) {
 export function addOrderToFavorite(context) {
     const that = context;
     const xhr = new XMLHttpRequest();
-    let url = new URL(serverPath + '/api/order/');
+    let url = new URL(serverPath + '/api/order/favorite');
     url.searchParams.set('userId', that.user.id)
     url.searchParams.set('orderId', that.curOrder.id)
     xhr.open("POST", url, true)
@@ -878,7 +878,7 @@ export function addOrderToFavorite(context) {
 export function removeOrderFromFavorite(context) {
     const that = context;
     const xhr = new XMLHttpRequest();
-    let url = new URL(serverPath + '/api/order/');
+    let url = new URL(serverPath + '/api/order/favorite');
     url.searchParams.set('userId', that.user.id)
     url.searchParams.set('orderId', that.curOrder.id)
     xhr.open("DELETE", url, true)
