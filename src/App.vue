@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="App">
     <div v-if="this.user !== undefined">
       <b-navbar fixed="top" href="" toggleable="lg" type="dark" >
         <b-navbar-brand href="/">AtrTrade</b-navbar-brand>
@@ -116,7 +116,7 @@ html, body {
   background-color: bisque;
 }
 
-#app {
+#App {
   height: 100%;
   font-family: "Century Gothic", serif;
   text-align: center;
@@ -168,6 +168,7 @@ select {
 
 .card-img {
   max-width: 400px;
+  max-height: 400px;
 }
 
 @media (max-width: 1000px) {
