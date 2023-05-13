@@ -9,7 +9,6 @@
         </b-navbar-nav>
         <b-button v-on:click="this.signout">Выйти</b-button>
       </b-navbar>
-      <router-view></router-view>
       <User v-if="$route.path === '/'" :selected-user=this.user></User>
     </div>
     <div v-else id="auth">
