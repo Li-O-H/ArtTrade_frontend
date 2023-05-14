@@ -161,7 +161,7 @@ export default {
     addItem: async function () {
       if (this.addItemTitle !== undefined && this.addItemDescription !== undefined && this.addItemCategory !== undefined) {
         Utils.postItem(this)
-        location.replace('/item?userId=' + this.selectedUser.id)
+        location.replace('#/item?userId=' + this.selectedUser.id)
       } else {
         alert("Не все обязательные поля заполнены")
       }
@@ -169,7 +169,7 @@ export default {
     addOrder: async function () {
       if (this.addOrderTitle !== undefined && this.addOrderDescription !== undefined && this.addOrderCategory !== undefined) {
         Utils.postOrder(this)
-        location.replace('/order?userId=' + this.selectedUser.id)
+        location.replace('#/order?userId=' + this.selectedUser.id)
       } else {
         alert("Не все обязательные поля заполнены")
       }
