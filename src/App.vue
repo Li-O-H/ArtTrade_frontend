@@ -3,7 +3,7 @@
 <template>
   <div id="App">
     <div v-if="this.user !== undefined">
-      <b-navbar fixed="top" href="" toggleable="lg" type="dark">
+      <b-navbar fixed="top" type="dark">
         <b-navbar-brand href="#/">AtrTrade</b-navbar-brand>
         <b-navbar-nav>
           <b-nav-item active href="#/item">Предметы</b-nav-item>
