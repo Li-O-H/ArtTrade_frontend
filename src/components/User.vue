@@ -1,20 +1,21 @@
 <template>
   <div id="User">
     <b-list-group v-if="isShortView">
-          <b-link :href="'/user/?userId=' + this.selectedUser.id">{{ this.selectedUser.name }}</b-link>
-          <b-link :href="'mailto: ' + this.selectedUser.email">{{ this.selectedUser.email }}</b-link>
+      <b-link :href="'/user/?userId=' + this.selectedUser.id">{{ this.selectedUser.name }}</b-link>
+      <b-link :href="'mailto: ' + this.selectedUser.email">{{ this.selectedUser.email }}</b-link>
     </b-list-group>
     <div v-else>
       <h3>Профиль</h3>
       <div class="content">
         <b-card>
           <div v-if="!isModifyUser">
-            <b-card-img v-for="photo in savedPhotos" v-bind:key="photo.id" v-bind:src="'data:image/gif;base64,' + photo.photo"></b-card-img>
+            <b-card-img v-for="photo in savedPhotos" v-bind:key="photo.id"
+                        v-bind:src="'data:image/gif;base64,' + photo.photo"></b-card-img>
           </div>
           <b-list-group v-if="!isModifyUser">
-            <b-list-group-item>Имя: {{selectedUser.name}}</b-list-group-item>
-            <b-list-group-item>Почта: {{selectedUser.email}}</b-list-group-item>
-            <b-list-group-item>Город: {{selectedUser.city}}</b-list-group-item>
+            <b-list-group-item>Имя: {{ selectedUser.name }}</b-list-group-item>
+            <b-list-group-item>Почта: {{ selectedUser.email }}</b-list-group-item>
+            <b-list-group-item>Город: {{ selectedUser.city }}</b-list-group-item>
             <b-list-group-item>{{ selectedUser.aboutCreator }}</b-list-group-item>
           </b-list-group>
           <div v-if="selectedUser.id === user.id">
@@ -40,23 +41,23 @@
             <b-button v-if="!this.isAddItem" v-on:click="this.selectAddItem">Добавить предмет</b-button>
             <b-button v-if="!this.isAddOrder" v-on:click="this.selectAddOrder">Добавить заказ</b-button>
             <div>
-              <b-link :href="'/item?userId=' + selectedUser.id">Мои предметы</b-link>
+              <b-link :href="'#/item?userId=' + selectedUser.id">Мои предметы</b-link>
               <br>
-              <b-link :href="'/item?favoriteByUserId=' + selectedUser.id">Избранные предметы</b-link>
+              <b-link :href="'#/item?favoriteByUserId=' + selectedUser.id">Избранные предметы</b-link>
               <br>
-              <b-link :href="'/itemFeedback?userId=' + selectedUser.id">Мои отзывы на предметы</b-link>
+              <b-link :href="'#/itemFeedback?userId=' + selectedUser.id">Мои отзывы на предметы</b-link>
               <br>
-              <b-link :href="'/itemBid?userId=' + selectedUser.id">Мои ставки на предметы</b-link>
+              <b-link :href="'#/itemBid?userId=' + selectedUser.id">Мои ставки на предметы</b-link>
               <br>
-              <b-link :href="'/order?userId=' + selectedUser.id">Мои заказы</b-link>
+              <b-link :href="'#/order?userId=' + selectedUser.id">Мои заказы</b-link>
               <br>
-              <b-link :href="'/order?favoriteByUserId=' + selectedUser.id">Избранные заказы</b-link>
+              <b-link :href="'#/order?favoriteByUserId=' + selectedUser.id">Избранные заказы</b-link>
               <br>
-              <b-link :href="'/orderFeedback?userId=' + selectedUser.id">Мои отзывы на заказы</b-link>
+              <b-link :href="'#/orderFeedback?userId=' + selectedUser.id">Мои отзывы на заказы</b-link>
               <br>
-              <b-link :href="'/orderBid?userId=' + selectedUser.id">Мои ставки на заказы</b-link>
+              <b-link :href="'#/orderBid?userId=' + selectedUser.id">Мои ставки на заказы</b-link>
               <br>
-              <b-link :href="'/order?doneByUserId=' + selectedUser.id">Выполненные мной заказы</b-link>
+              <b-link :href="'#/order?doneByUserId=' + selectedUser.id">Выполненные мной заказы</b-link>
             </div>
             <div v-if="this.isAddItem">
               <UploadImages @changed="this.handleImages" uploadMsg="Добавьте изображения"/>

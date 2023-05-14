@@ -113,7 +113,7 @@ export function modifyUser(context) {
             that.isModifyUser = false
             that.photos = []
             that.photosForDeletion = []
-            location.reload()
+            getSelectedUser(context)
         }
     };
 }
@@ -266,7 +266,7 @@ export function getAllCategories(context) {
         } else {
             let categories = JSON.parse(xhr.response)
             context.categories = []
-            categories.forEach(function(category) {
+            categories.forEach(function (category) {
                 context.categories.push({
                     value: category.id,
                     text: category.name
@@ -283,21 +283,22 @@ export function getItems(context, id) {
     let url = new URL(serverPath + '/api/item')
     if (isId) {
         url += '/' + id
-    }
-    if (that.maxPrice !== undefined) {
-        url.searchParams.set('maxPrice', that.maxPrice)
-    }
-    if (that.minPrice !== undefined) {
-        url.searchParams.set('minPrice', that.minPrice)
-    }
-    if (that.selectedUserId !== undefined) {
-        url.searchParams.set('userId', that.selectedUserId)
-    }
-    if (that.favoriteByUserId !== undefined) {
-        url.searchParams.set('favoriteByUserId', that.favoriteByUserId)
-    }
-    if (that.searchItemsCategory !== undefined) {
-        url.searchParams.set('categoryId', that.searchItemsCategory)
+    } else {
+        if (that.maxPrice !== undefined) {
+            url.searchParams.set('maxPrice', that.maxPrice)
+        }
+        if (that.minPrice !== undefined) {
+            url.searchParams.set('minPrice', that.minPrice)
+        }
+        if (that.selectedUserId !== undefined) {
+            url.searchParams.set('userId', that.selectedUserId)
+        }
+        if (that.favoriteByUserId !== undefined) {
+            url.searchParams.set('favoriteByUserId', that.favoriteByUserId)
+        }
+        if (that.searchItemsCategory !== undefined) {
+            url.searchParams.set('categoryId', that.searchItemsCategory)
+        }
     }
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
@@ -314,6 +315,78 @@ export function getItems(context, id) {
             } else {
                 that.curItem = json
             }
+        }
+    };
+}
+
+export function getBidsByItem(context, itemId) {
+    const that = context;
+    const xhr = new XMLHttpRequest();
+    let url = new URL(serverPath + '/api/itemBid/item')
+    url.searchParams.set('itemId', itemId)
+    xhr.open("GET", url, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
+    xhr.send()
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            that.bids = JSON.parse(xhr.response)
+        }
+    };
+}
+
+export function getFeedbacksByItem(context, itemId) {
+    const that = context;
+    const xhr = new XMLHttpRequest();
+    let url = new URL(serverPath + '/api/itemFeedback/item')
+    url.searchParams.set('itemId', itemId)
+    xhr.open("GET", url, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
+    xhr.send()
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            that.feedbacks = JSON.parse(xhr.response)
+        }
+    };
+}
+
+export function getBidsByOrder(context, orderId) {
+    const that = context;
+    const xhr = new XMLHttpRequest();
+    let url = new URL(serverPath + '/api/orderBid/order')
+    url.searchParams.set('orderId', orderId)
+    xhr.open("GET", url, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
+    xhr.send()
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            that.bids = JSON.parse(xhr.response)
+        }
+    };
+}
+
+export function getFeedbacksByOrder(context, orderId) {
+    const that = context;
+    const xhr = new XMLHttpRequest();
+    let url = new URL(serverPath + '/api/orderFeedback/order')
+    url.searchParams.set('orderId', orderId)
+    xhr.open("GET", url, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("token"));
+    xhr.send()
+    xhr.onload = function () {
+        if (xhr.status !== 200) {
+            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            that.feedbacks = JSON.parse(xhr.response)
         }
     };
 }
@@ -370,7 +443,7 @@ export function modifyItem(context) {
             that.isModifyItem = false
             that.photos = []
             that.photosForDeletion = []
-            location.reload()
+            getItems(context, that.curItem.id)
         }
     };
 }
@@ -410,7 +483,7 @@ export function postItemFeedback(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isAddFeedback = false
-            location.reload()
+            getFeedbacksByItem(context, that.curItem.id)
         }
     };
 }
@@ -432,7 +505,7 @@ export function postItemBid(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isAddBid = false
-            location.reload()
+            getBidsByItem(context, that.curItem.id)
         }
     };
 }
@@ -447,6 +520,9 @@ export function deleteItem(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            that.curItem = undefined
+            that.id = undefined
         }
     };
 }
@@ -474,7 +550,11 @@ export function deleteItemFeedback(context, id) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            if (context.curItem === undefined) {
+                getItemFeedbacksByUser(context, context.selectedUserId)
+            } else {
+                getFeedbacksByItem(context, context.curItem.id)
+            }
         }
     };
 }
@@ -489,7 +569,11 @@ export function deleteItemBid(context, id) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            if (context.curItem === undefined) {
+                getItemBidsByUser(context, context.selectedUserId)
+            } else {
+                getBidsByItem(context, context.curItem.id)
+            }
         }
     };
 }
@@ -505,7 +589,7 @@ export function activateItem(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getItems(context, that.curItem.id)
         }
     };
 }
@@ -521,7 +605,7 @@ export function hideItem(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getItems(context, that.curItem.id)
         }
     };
 }
@@ -537,7 +621,7 @@ export function completeItem(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getItems(context, that.curItem.id)
         }
     };
 }
@@ -556,7 +640,7 @@ export function addItemToFavorite(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getItems(context, that.curItem.id)
         }
     };
 }
@@ -575,7 +659,7 @@ export function removeItemFromFavorite(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getItems(context, that.curItem.id)
         }
     };
 }
@@ -587,24 +671,25 @@ export function getOrders(context, id) {
     let url = new URL(serverPath + '/api/order')
     if (isId) {
         url += '/' + id
-    }
-    if (that.maxPrice !== undefined) {
-        url.searchParams.set('maxPrice', that.maxPrice)
-    }
-    if (that.minPrice !== undefined) {
-        url.searchParams.set('minPrice', that.minPrice)
-    }
-    if (that.selectedUserId !== undefined) {
-        url.searchParams.set('userId', that.selectedUserId)
-    }
-    if (that.favoriteByUserId !== undefined) {
-        url.searchParams.set('favoriteByUserId', that.favoriteByUserId)
-    }
-    if (that.doneByUserId !== undefined) {
-        url.searchParams.set('doneByUserId', that.doneByUserId)
-    }
-    if (that.searchOrdersCategory !== undefined) {
-        url.searchParams.set('categoryId', that.searchOrdersCategory)
+    } else {
+        if (that.maxPrice !== undefined) {
+            url.searchParams.set('maxPrice', that.maxPrice)
+        }
+        if (that.minPrice !== undefined) {
+            url.searchParams.set('minPrice', that.minPrice)
+        }
+        if (that.selectedUserId !== undefined) {
+            url.searchParams.set('userId', that.selectedUserId)
+        }
+        if (that.favoriteByUserId !== undefined) {
+            url.searchParams.set('favoriteByUserId', that.favoriteByUserId)
+        }
+        if (that.doneByUserId !== undefined) {
+            url.searchParams.set('doneByUserId', that.doneByUserId)
+        }
+        if (that.searchOrdersCategory !== undefined) {
+            url.searchParams.set('categoryId', that.searchOrdersCategory)
+        }
     }
     xhr.open("GET", url, true)
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8')
@@ -679,7 +764,7 @@ export function modifyOrder(context) {
             that.isModifyOrder = false
             that.photos = []
             that.photosForDeletion = []
-            location.reload()
+            getOrders(context, that.curOrder.id)
         }
     };
 }
@@ -719,7 +804,7 @@ export function postOrderFeedback(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isAddFeedback = false
-            location.reload()
+            getFeedbacksByOrder(context, that.curOrder.id)
         }
     };
 }
@@ -741,7 +826,7 @@ export function postOrderBid(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isAddBid = false
-            location.reload()
+            getBidsByOrder(context, that.curOrder.id)
         }
     };
 }
@@ -756,6 +841,9 @@ export function deleteOrder(context) {
     xhr.onload = function () {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+        } else {
+            that.curOrder = undefined
+            that.id = undefined
         }
     };
 }
@@ -783,7 +871,11 @@ export function deleteOrderFeedback(context, id) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            if (context.curOrder === undefined) {
+                getOrderFeedbacksByUser(context, context.selectedUserId)
+            } else {
+                getFeedbacksByOrder(context, context.curOrder.id)
+            }
         }
     };
 }
@@ -798,7 +890,11 @@ export function deleteOrderBid(context, id) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            if (context.curOrder === undefined) {
+                getOrderBidsByUser(context, context.selectedUserId)
+            } else {
+                getBidsByOrder(context, context.curOrder.id)
+            }
         }
     };
 }
@@ -814,7 +910,7 @@ export function activateOrder(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getOrders(context, that.curOrder.id)
         }
     };
 }
@@ -830,7 +926,7 @@ export function hideOrder(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getOrders(context, that.curOrder.id)
         }
     };
 }
@@ -851,7 +947,7 @@ export function completeOrder(context) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
             that.isCompleteOrder = false
-            location.reload()
+            getOrders(context, that.curOrder.id)
         }
     };
 }
@@ -870,7 +966,7 @@ export function addOrderToFavorite(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getOrders(context, that.curOrder.id)
         }
     };
 }
@@ -889,7 +985,7 @@ export function removeOrderFromFavorite(context) {
         if (xhr.status !== 200) {
             alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
         } else {
-            location.reload()
+            getOrders(context, that.curOrder.id)
         }
     };
 }

@@ -22,7 +22,7 @@
               <b-list-group-item>{{ countPriceOfOrder(order) === null ? "?" : countPriceOfOrder(order) }} ₽
               </b-list-group-item>
             </b-list-group>
-            <b-button v-on:click="viewOrder(order.id)">Обзор</b-button>
+            <b-button v-on:click="viewOrder(order)">Обзор</b-button>
           </b-card>
         </div>
       </div>
@@ -31,6 +31,7 @@
       <h3>Заказ:</h3>
       <div class="content">
         <b-card>
+          <b-button v-on:click="closeOrder">Назад к заказам</b-button>
           <div v-if="!this.isModifyOrder">
             <b-card-img v-for="photo in curOrder.photos" v-bind:key="photo.id"
                         v-bind:src="'data:image/gif;base64,' + photo.photo"></b-card-img>
@@ -40,7 +41,9 @@
             <b-list-group-item>Категория: {{ curOrder.category.name }}</b-list-group-item>
             <b-list-group-item>{{ countPriceOfOrder(curOrder) === null ? "?" : countPriceOfOrder(curOrder) }} ₽
             </b-list-group-item>
-            <b-list-group-item>Дедлайн: {{ curOrder.deadline !== null ? new Date(curOrder.deadline).toLocaleDateString() : '-' }}</b-list-group-item>
+            <b-list-group-item>Дедлайн:
+              {{ curOrder.deadline !== null ? new Date(curOrder.deadline).toLocaleDateString() : '-' }}
+            </b-list-group-item>
             <b-list-group-item>{{ curOrder.description }}</b-list-group-item>
             <b-list-group-item>{{
                 curOrder.status === "ACTIVE" ? "Объявление активно" : curOrder.status === "HIDDEN" ? "Объявление скрыто" : "Объявление закрыто"
@@ -74,7 +77,8 @@
             <b-button v-if="curOrder.status === 'HIDDEN'" v-on:click="this.activateOrder">Активировать объявление
             </b-button>
             <b-button v-if="curOrder.status === 'ACTIVE'" v-on:click="this.hideOrder">Скрыть объявление</b-button>
-            <b-button v-if="curOrder.status !== 'COMPLETED'" v-on:click="this.selectCompleteOrder">Закрыть объявление</b-button>
+            <b-button v-if="curOrder.status !== 'COMPLETED'" v-on:click="this.selectCompleteOrder">Закрыть объявление
+            </b-button>
             <b-button v-if="!this.isModifyOrder && curOrder.status !== 'COMPLETED'" v-on:click="this.selectModifyOrder">
               Изменить заказ
             </b-button>
@@ -83,27 +87,13 @@
             <b-form-input v-model="completeOrderEmail" placeholder="Email исполнителя"></b-form-input>
             <b-button v-on:click="this.completeOrder">Отправить</b-button>
           </div>
-          <b-button v-if="curOrder.status !== 'COMPLETED' && !this.isAddBid" v-on:click="this.selectAddBid">Предложить
-            цену
-          </b-button>
-          <div v-if="isAddBid">
-            <b-form-input v-model="bidSize" placeholder="Цена"></b-form-input>
-            <b-button v-on:click="this.addBid">Отправить</b-button>
-          </div>
           <div v-if="this.user.id !== curOrder.user.id">
-            <b-button v-if="!this.isAddFeedback" v-on:click="this.selectAddFeedback">Добавить отзыв</b-button>
             <b-button v-if="!this.isInFavorite()" v-on:click="this.addToFavorite">В избранное</b-button>
             <b-button v-if="this.isInFavorite()" v-on:click="this.removeFromFavorite">Убрать из избранного</b-button>
           </div>
-          <div v-if="isAddFeedback">
-            <b-form-select v-model="ratingSelected" :options="feedbacksRating"></b-form-select>
-            <b-form-input v-model="feedbackText" placeholder="Отзыв"></b-form-input>
-            <b-button v-on:click="this.addFeedback">Отправить</b-button>
-          </div>
           <OrderBid :bids="curOrder.bids" :user="this.user" :cur-order="curOrder"></OrderBid>
-          <OrderFeedback :feedbacks=curOrder.feedbacks :user=this.user></OrderFeedback>
+          <OrderFeedback :feedbacks=curOrder.feedbacks :user=this.user :cur-order="this.curOrder"></OrderFeedback>
           <br>
-          <b-button v-on:click="closeOrder">Назад к заказам</b-button>
         </b-card>
       </div>
     </div>
@@ -125,11 +115,9 @@ export default {
     User,
     UploadImages
   },
-  props: {
-    id: undefined
-  },
   data() {
     return {
+      id: undefined,
       maxPrice: undefined,
       minPrice: undefined,
       searchOrdersCategory: undefined,
@@ -138,8 +126,6 @@ export default {
       curOrder: undefined,
       login: undefined,
       user: undefined,
-      isAddFeedback: false,
-      isAddBid: false,
       isModifyOrder: false,
       isCompleteOrder: false,
       modifyOrderTitle: undefined,
@@ -147,35 +133,31 @@ export default {
       modifyOrderCategory: undefined,
       modifyOrderDeadline: undefined,
       completeOrderEmail: undefined,
-      feedbackText: undefined,
-      ratingSelected: null,
-      bidSize: undefined,
       isAddOrder: false,
       selectedUserId: undefined,
       selectedUser: undefined,
       favoriteByUserId: undefined,
       doneByUserId: undefined,
+      locationBeforeView: undefined,
       categories: [],
       photos: [],
-      photosForDeletion: [],
-      feedbacksRating: [
-        {value: 1, text: 1},
-        {value: 2, text: 2},
-        {value: 3, text: 3},
-        {value: 4, text: 4},
-        {value: 5, text: 5}
-      ]
+      photosForDeletion: []
     }
   },
   methods: {
-    viewOrder: function (id) {
-      window.location.replace("/order/" + id)
+    viewOrder: function (order) {
+      this.id = order.id
+      this.curOrder = order
+      this.locationBeforeView = location.hash
+      window.location.replace("#/order/" + order.id)
     },
     searchOrders: function () {
       Utils.getOrders(this, undefined)
     },
     closeOrder: function () {
-      window.location.replace("/order/")
+      this.id = undefined
+      window.location.replace(this.locationBeforeView)
+      this.locationBeforeView = undefined
     },
     selectModifyOrder: function () {
       this.modifyOrderTitle = this.curOrder.title
@@ -183,7 +165,7 @@ export default {
       this.modifyOrderCategory = this.curOrder.category.id
       const deadline = new Date(this.curOrder.deadline)
       const offset = deadline.getTimezoneOffset()
-      this.modifyOrderDeadline = new Date(deadline.getTime() - (offset*60*1000)).toISOString().split('T')[0]
+      this.modifyOrderDeadline = new Date(deadline.getTime() - (offset * 60 * 1000)).toISOString().split('T')[0]
       this.isModifyOrder = true
     },
     selectCompleteOrder: function () {
@@ -203,7 +185,7 @@ export default {
     },
     deleteOrder: function () {
       Utils.deleteOrder(this)
-      window.history.back()
+      this.closeOrder()
     },
     activateOrder: function () {
       Utils.activateOrder(this)
@@ -221,24 +203,6 @@ export default {
       }
       bids.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
       return bids[0].price
-    },
-    selectAddFeedback: function () {
-      this.isAddFeedback = true
-    },
-    addFeedback: function () {
-      if (this.feedbackText !== undefined && this.ratingSelected !== undefined) {
-        Utils.postOrderFeedback(this)
-      }
-    },
-    selectAddBid: function () {
-      this.isAddBid = true
-    },
-    addBid: function () {
-      if (this.bidSize !== undefined && Number(this.bidSize)) {
-        Utils.postOrderBid(this)
-      } else {
-        alert("Некорректная цена!")
-      }
     },
     addToFavorite: function () {
       Utils.addOrderToFavorite(this)

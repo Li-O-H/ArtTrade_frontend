@@ -1,14 +1,17 @@
+<script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+
 <template>
   <div id="App">
     <div v-if="this.user !== undefined">
-      <b-navbar fixed="top" href="" toggleable="lg" type="dark" >
-        <b-navbar-brand href="/">AtrTrade</b-navbar-brand>
+      <b-navbar fixed="top" href="" toggleable="lg" type="dark">
+        <b-navbar-brand href="#/">AtrTrade</b-navbar-brand>
         <b-navbar-nav>
-          <b-nav-item active href="/item">Предметы</b-nav-item>
-          <b-nav-item active href="/order">Заказы</b-nav-item>
+          <b-nav-item active href="#/item">Предметы</b-nav-item>
+          <b-nav-item active href="#/order">Заказы</b-nav-item>
         </b-navbar-nav>
         <b-button v-on:click="this.signout">Выйти</b-button>
       </b-navbar>
+      <router-view></router-view>
       <User v-if="$route.path === '/'" :selected-user=this.user></User>
     </div>
     <div v-else id="auth">

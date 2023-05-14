@@ -22,7 +22,7 @@
               <b-list-group-item>{{ countPriceOfItem(item) === null ? "?" : countPriceOfItem(item) }} ₽
               </b-list-group-item>
             </b-list-group>
-            <b-button v-on:click="viewItem(item.id)">Обзор</b-button>
+            <b-button v-on:click="viewItem(item)">Обзор</b-button>
           </b-card>
         </div>
       </div>
@@ -31,6 +31,7 @@
       <h3>Предмет:</h3>
       <div class="content">
         <b-card>
+          <b-button v-on:click="closeItem">Назад к предметам</b-button>
           <div v-if="!this.isModifyItem">
             <b-card-img v-for="photo in curItem.photos" v-bind:key="photo.id"
                         v-bind:src="'data:image/gif;base64,' + photo.photo"></b-card-img>
@@ -73,27 +74,13 @@
               Изменить предмет
             </b-button>
           </div>
-          <b-button v-if="curItem.status !== 'COMPLETED' && !this.isAddBid" v-on:click="this.selectAddBid">Предложить
-            цену
-          </b-button>
-          <div v-if="isAddBid">
-            <b-form-input v-model="bidSize" placeholder="Цена"></b-form-input>
-            <b-button v-on:click="this.addBid">Отправить</b-button>
-          </div>
           <div v-if="this.user.id !== curItem.user.id">
-            <b-button v-if="!this.isAddFeedback" v-on:click="this.selectAddFeedback">Добавить отзыв</b-button>
             <b-button v-if="!this.isInFavorite()" v-on:click="this.addToFavorite">В избранное</b-button>
             <b-button v-if="this.isInFavorite()" v-on:click="this.removeFromFavorite">Убрать из избранного</b-button>
           </div>
-          <div v-if="isAddFeedback">
-            <b-form-select v-model="ratingSelected" :options="feedbacksRating"></b-form-select>
-            <b-form-input v-model="feedbackText" placeholder="Отзыв"></b-form-input>
-            <b-button v-on:click="this.addFeedback">Отправить</b-button>
-          </div>
           <ItemBid :bids="curItem.bids" :user="this.user" :cur-item="curItem"></ItemBid>
-          <ItemFeedback :feedbacks=curItem.feedbacks :user=this.user></ItemFeedback>
+          <ItemFeedback :feedbacks=curItem.feedbacks :user=this.user :cur-item="curItem"></ItemFeedback>
           <br>
-          <b-button v-on:click="closeItem">Назад к предметам</b-button>
         </b-card>
       </div>
     </div>
@@ -115,11 +102,9 @@ export default {
     User,
     UploadImages
   },
-  props: {
-    id: undefined
-  },
   data() {
     return {
+      id: undefined,
       maxPrice: undefined,
       minPrice: undefined,
       searchItemsCategory: undefined,
@@ -128,40 +113,34 @@ export default {
       curItem: undefined,
       login: undefined,
       user: undefined,
-      isAddFeedback: false,
-      isAddBid: false,
       isModifyItem: false,
       modifyItemTitle: undefined,
       modifyItemDescription: undefined,
       modifyItemCategory: undefined,
-      feedbackText: undefined,
-      ratingSelected: null,
-      bidSize: undefined,
       isAddItem: false,
       selectedUserId: undefined,
       selectedUser: undefined,
       favoriteByUserId: undefined,
+      locationBeforeView: undefined,
       categories: [],
       photos: [],
-      photosForDeletion: [],
-      feedbacksRating: [
-        {value: 1, text: 1},
-        {value: 2, text: 2},
-        {value: 3, text: 3},
-        {value: 4, text: 4},
-        {value: 5, text: 5}
-      ]
+      photosForDeletion: []
     }
   },
   methods: {
-    viewItem: function (id) {
-      window.location.replace("/item/" + id)
+    viewItem: function (item) {
+      this.id = item.id
+      this.curItem = item
+      this.locationBeforeView = location.hash
+      window.location.replace("#/item/" + item.id)
     },
     searchItems: function () {
       Utils.getItems(this, undefined)
     },
     closeItem: function () {
-      window.location.replace("/item/")
+      this.id = undefined
+      window.location.replace(this.locationBeforeView)
+      this.locationBeforeView = undefined
     },
     selectModifyItem: function () {
       this.modifyItemTitle = this.curItem.title
@@ -183,7 +162,7 @@ export default {
     },
     deleteItem: function () {
       Utils.deleteItem(this)
-      window.history.back()
+      this.closeItem()
     },
     activateItem: function () {
       Utils.activateItem(this)
@@ -201,24 +180,6 @@ export default {
       }
       bids.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
       return bids[0].price
-    },
-    selectAddFeedback: function () {
-      this.isAddFeedback = true
-    },
-    addFeedback: function () {
-      if (this.feedbackText !== undefined && this.ratingSelected !== undefined) {
-        Utils.postItemFeedback(this)
-      }
-    },
-    selectAddBid: function () {
-      this.isAddBid = true
-    },
-    addBid: function () {
-      if (this.bidSize !== undefined && Number(this.bidSize)) {
-        Utils.postItemBid(this)
-      } else {
-        alert("Некорректная цена!")
-      }
     },
     addToFavorite: function () {
       Utils.addItemToFavorite(this)
