@@ -11,7 +11,7 @@
       <b-list-group v-if="selectedUserId === bid.user.id || user.id === bid.user.id || curItem.user.id === user.id">
         <User :is-short-view=true :selected-user="bid.user"></User>
         <b-list-group-item>Размер: {{ bid.price }}</b-list-group-item>
-        <b-list-group-item>Когда: {{ new Date(bid.created * 1000).toLocaleString() }}</b-list-group-item>
+        <b-list-group-item>Когда: {{ new Date(bid.created).toLocaleString() }}</b-list-group-item>
         <b-button v-if="bid.user.id === user.id" v-on:click="deleteItemBid(bid.id)">Удалить</b-button>
       </b-list-group>
       <br>
@@ -65,6 +65,7 @@ export default {
       Utils.getSelectedUser(this)
       Utils.getItemBidsByUser(this, this.selectedUserId)
     }
+    console.log(this.bids)
   }
 }
 </script>
