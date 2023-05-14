@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import App from './App.vue'
 
-import { BootstrapVue } from 'bootstrap-vue'
+import {BootstrapVue} from 'bootstrap-vue'
 import * as path from "path";
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -19,12 +19,9 @@ Vue.use(Router)
 Vue.config.productionTip = false
 
 const routes = [
-    {
-        path: '/user', component: User
-    },
+    {path: '/user', component: User},
     {
         path: '/item', component: Item,
-        props: {},
         children: [
             {
                 path: ':id',
@@ -32,15 +29,10 @@ const routes = [
             }
         ]
     },
-    {
-        path: '/itemFeedback', component: ItemFeedback
-    },
-    {
-        path: '/itemBid', component: ItemBid
-    },
+    {path: '/itemFeedback', component: ItemFeedback},
+    {path: '/itemBid', component: ItemBid},
     {
         path: '/order', component: Order,
-        props: {},
         children: [
             {
                 path: ':id',
@@ -48,12 +40,8 @@ const routes = [
             }
         ]
     },
-    {
-        path: '/orderFeedback', component: OrderFeedback
-    },
-    {
-        path: '/orderBid', component: OrderBid
-    }
+    {path: '/orderFeedback', component: OrderFeedback},
+    {path: '/orderBid', component: OrderBid}
 ]
 
 const router = new Router({
