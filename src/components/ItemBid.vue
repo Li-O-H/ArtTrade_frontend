@@ -65,7 +65,6 @@ export default {
       Utils.getSelectedUser(this)
       Utils.getItemBidsByUser(this, this.selectedUserId)
     }
-    console.log(this.bids)
   }
 }
 </script>
