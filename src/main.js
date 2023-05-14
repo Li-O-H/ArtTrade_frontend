@@ -4,7 +4,6 @@ import App from './App.vue'
 
 import {BootstrapVue} from 'bootstrap-vue'
 import * as path from "path";
-
 import 'bootstrap/dist/css/bootstrap.css'
 import Item from "./components/Item";
 import User from "./components/User";
@@ -13,10 +12,6 @@ import ItemBid from "./components/ItemBid";
 import Order from "./components/Order";
 import OrderFeedback from "./components/OrderFeedback";
 import OrderBid from "./components/OrderBid";
-
-Vue.use(BootstrapVue)
-Vue.use(Router)
-Vue.config.productionTip = false
 
 const routes = [
     {path: '/user', component: User},
@@ -44,9 +39,9 @@ const routes = [
     {path: '/orderBid', component: OrderBid}
 ]
 
-const router = new Router({
-    routes: routes,
-})
+const router = new Router({routes: routes})
+Vue.use(BootstrapVue)
+Vue.use(Router)
 
 new Vue({
     router,
