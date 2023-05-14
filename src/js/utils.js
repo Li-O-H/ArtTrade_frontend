@@ -22,7 +22,7 @@ export function signup(context) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.token = xhr.response.toString()
             localStorage.setItem('token', xhr.response.toString());
@@ -41,7 +41,7 @@ export function signin(context) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.isSignin = false;
             localStorage.setItem('token', xhr.response.toString());
@@ -62,7 +62,7 @@ export function getUserByToken(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
             localStorage.removeItem("token")
         } else {
             that.user = JSON.parse(xhr.response)
@@ -80,7 +80,7 @@ export function getSelectedUser(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.selectedUser = JSON.parse(xhr.response)
         }
@@ -102,7 +102,7 @@ export function modifyUser(context) {
     xhr.send(json)
     xhr.onload = async function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             for (const file of that.photos) {
                 postUserPhoto(this, that.selectedUser.id, await toBase64(file))
@@ -126,7 +126,7 @@ export function deleteUser(id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             location.reload()
         }
@@ -145,7 +145,7 @@ export function postUserPhoto(context, userId, file) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         }
     };
 }
@@ -158,7 +158,7 @@ export function deleteUserPhoto(id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         }
     };
 }
@@ -174,7 +174,7 @@ export function getUserPhotosByUser(context, userId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.savedPhotos = JSON.parse(xhr.response)
         }
@@ -192,7 +192,7 @@ export function getItemFeedbacksByUser(context, userId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.feedbacks = JSON.parse(xhr.response)
         }
@@ -210,7 +210,7 @@ export function getItemBidsByUser(context, userId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.bids = JSON.parse(xhr.response)
         }
@@ -228,7 +228,7 @@ export function getOrderFeedbacksByUser(context, userId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.feedbacks = JSON.parse(xhr.response)
         }
@@ -246,7 +246,7 @@ export function getOrderBidsByUser(context, userId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.bids = JSON.parse(xhr.response)
         }
@@ -262,7 +262,7 @@ export function getAllCategories(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             let categories = JSON.parse(xhr.response)
             context.categories = []
@@ -306,7 +306,7 @@ export function getItems(context, id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
             that.items = []
         } else {
             let json = JSON.parse(xhr.response)
@@ -330,7 +330,7 @@ export function getBidsByItem(context, itemId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.bids = JSON.parse(xhr.response)
         }
@@ -348,7 +348,7 @@ export function getFeedbacksByItem(context, itemId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.feedbacks = JSON.parse(xhr.response)
         }
@@ -366,7 +366,7 @@ export function getBidsByOrder(context, orderId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.bids = JSON.parse(xhr.response)
         }
@@ -384,7 +384,7 @@ export function getFeedbacksByOrder(context, orderId) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.feedbacks = JSON.parse(xhr.response)
         }
@@ -406,7 +406,7 @@ export function postItem(context) {
     xhr.send(json)
     xhr.onload = async function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             for (const file of that.photos) {
                 postItemPhoto(this, JSON.parse(xhr.response).id, await toBase64(file))
@@ -432,7 +432,7 @@ export function modifyItem(context) {
     xhr.send(json)
     xhr.onload = async function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             for (const file of that.photos) {
                 postItemPhoto(this, that.curItem.id, await toBase64(file))
@@ -460,7 +460,7 @@ export function postItemPhoto(context, itemId, file) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         }
     };
 }
@@ -480,7 +480,7 @@ export function postItemFeedback(context) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.isAddFeedback = false
             getFeedbacksByItem(context, that.curItem.id)
@@ -502,7 +502,7 @@ export function postItemBid(context) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.isAddBid = false
             getBidsByItem(context, that.curItem.id)
@@ -519,7 +519,7 @@ export function deleteItem(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.curItem = undefined
             that.id = undefined
@@ -535,7 +535,7 @@ export function deleteItemPhoto(id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         }
     };
 }
@@ -548,7 +548,7 @@ export function deleteItemFeedback(context, id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             if (context.curItem === undefined) {
                 getItemFeedbacksByUser(context, context.selectedUserId)
@@ -567,7 +567,7 @@ export function deleteItemBid(context, id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             if (context.curItem === undefined) {
                 getItemBidsByUser(context, context.selectedUserId)
@@ -587,7 +587,7 @@ export function activateItem(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getItems(context, that.curItem.id)
         }
@@ -603,7 +603,7 @@ export function hideItem(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getItems(context, that.curItem.id)
         }
@@ -619,7 +619,7 @@ export function completeItem(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getItems(context, that.curItem.id)
         }
@@ -638,7 +638,7 @@ export function addItemToFavorite(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getItems(context, that.curItem.id)
         }
@@ -657,7 +657,7 @@ export function removeItemFromFavorite(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getItems(context, that.curItem.id)
         }
@@ -697,7 +697,7 @@ export function getOrders(context, id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
             that.orders = []
         } else {
             let json = JSON.parse(xhr.response)
@@ -726,7 +726,7 @@ export function postOrder(context) {
     xhr.send(json)
     xhr.onload = async function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             for (const file of that.photos) {
                 postOrderPhoto(this, JSON.parse(xhr.response).id, await toBase64(file))
@@ -753,7 +753,7 @@ export function modifyOrder(context) {
     xhr.send(json)
     xhr.onload = async function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             for (const file of that.photos) {
                 postOrderPhoto(this, that.curOrder.id, await toBase64(file))
@@ -781,7 +781,7 @@ export function postOrderPhoto(context, orderId, file) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         }
     };
 }
@@ -801,7 +801,7 @@ export function postOrderFeedback(context) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.isAddFeedback = false
             getFeedbacksByOrder(context, that.curOrder.id)
@@ -823,7 +823,7 @@ export function postOrderBid(context) {
     xhr.send(json)
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.isAddBid = false
             getBidsByOrder(context, that.curOrder.id)
@@ -840,7 +840,7 @@ export function deleteOrder(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.curOrder = undefined
             that.id = undefined
@@ -856,7 +856,7 @@ export function deleteOrderPhoto(id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         }
     };
 }
@@ -869,7 +869,7 @@ export function deleteOrderFeedback(context, id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             if (context.curOrder === undefined) {
                 getOrderFeedbacksByUser(context, context.selectedUserId)
@@ -888,7 +888,7 @@ export function deleteOrderBid(context, id) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             if (context.curOrder === undefined) {
                 getOrderBidsByUser(context, context.selectedUserId)
@@ -908,7 +908,7 @@ export function activateOrder(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getOrders(context, that.curOrder.id)
         }
@@ -924,7 +924,7 @@ export function hideOrder(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getOrders(context, that.curOrder.id)
         }
@@ -944,7 +944,7 @@ export function completeOrder(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             that.isCompleteOrder = false
             getOrders(context, that.curOrder.id)
@@ -964,7 +964,7 @@ export function addOrderToFavorite(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getOrders(context, that.curOrder.id)
         }
@@ -983,7 +983,7 @@ export function removeOrderFromFavorite(context) {
     xhr.send()
     xhr.onload = function () {
         if (xhr.status !== 200) {
-            alert(`Ошибка ${xhr.status}: ${JSON.parse(xhr.responseText).message}`);
+            alert(`Ошибка ${xhr.status}: ${xhr.response}`);
         } else {
             getOrders(context, that.curOrder.id)
         }
