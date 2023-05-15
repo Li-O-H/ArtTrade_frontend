@@ -523,6 +523,7 @@ export function deleteItem(context) {
         } else {
             that.curItem = undefined
             that.id = undefined
+            getItems(context, undefined)
         }
     };
 }
@@ -844,6 +845,7 @@ export function deleteOrder(context) {
         } else {
             that.curOrder = undefined
             that.id = undefined
+            getOrders(context, undefined)
         }
     };
 }
