@@ -14,7 +14,6 @@
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "js-cookie": "^3.0.1",
-    "sass-loader": "^12.4.0",
     "vue": "^2.6.11",
     "vue-router": "^3.5.3",
     "vue-upload-drop-images": "^1.0.7",
